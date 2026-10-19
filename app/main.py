@@ -21,7 +21,7 @@ from .countries import (
 from .search import BrowserClosedError, CaptchaError, search_browser
 from .translate import translate, translate_many
 
-STATIC_DIR = config.BASE_DIR / "static"
+STATIC_DIR = config.RESOURCE_DIR / "static"
 
 
 @asynccontextmanager

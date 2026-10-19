@@ -33,10 +33,40 @@ playwright install chromium
 ## Chạy
 
 ```bash
+python run.py            # mở server 127.0.0.1:8000 rồi tự mở trình duyệt
+```
+
+Hoặc dùng uvicorn trực tiếp:
+
+```bash
 uvicorn app.main:app --reload
 ```
 
 Mở http://127.0.0.1:8000
+
+## Chạy trên Windows (đóng gói thành .exe)
+
+Cần **Python 3.10+** trên Windows. Chỉ cần chạy:
+
+```bat
+build_windows.bat
+```
+
+Script sẽ tạo `.venv`, cài thư viện, tải Chromium (bundle vào app) và đóng gói
+bằng PyInstaller. Kết quả:
+
+```
+dist\TikTokTrending\TikTokTrending.exe
+```
+
+Double-click file `.exe` để mở app (tự mở trình duyệt). Đóng cửa sổ console để tắt app.
+
+Ghi chú khi đóng gói:
+
+- Bản đóng gói **đi kèm Chromium** (`BROWSER_CHANNEL` trống) nên không cần cài Chrome.
+- Dữ liệu (`profile trình duyệt`, `.env`) được ghi vào
+  `%LOCALAPPDATA%\TikTokTrending`, không nằm cạnh file `.exe`.
+- Thư mục `dist\TikTokTrending` có thể copy sang máy Windows khác (cùng kiến trúc).
 
 ## Biến môi trường
 
@@ -58,8 +88,9 @@ App tự nạp `.env` lúc khởi động (biến môi trường thật trong sh
 | Biến               | Mặc định          | Ý nghĩa                                                       |
 | ------------------ | ----------------- | ------------------------------------------------------------- |
 | `HEADLESS`         | `false`           | Chạy trình duyệt ẩn. TikTok hay chặn headless → nên để `false`. |
-| `BROWSER_CHANNEL`  | `chrome`          | `chrome` hoặc `chromium`.                                      |
+| `BROWSER_CHANNEL`  | `chrome`          | `chrome` hoặc `chromium`. Bản đóng gói để trống → dùng Chromium đi kèm. |
 | `USER_DATA_DIR`    | `.browser-profile`| Nơi lưu cookie (chỉ cần giải captcha 1 lần).                   |
+| `DATA_DIR`         | `%LOCALAPPDATA%\TikTokTrending` (khi đóng gói) | Nơi ghi dữ liệu & nạp `.env`. |
 | `CAPTCHA_WAIT_SECONDS` | `180`         | Khi gặp captcha, giữ cửa sổ mở và chờ bạn giải trong bao lâu. `0` = tắt. |
 | `BROWSER_IDLE_CLOSE_SECONDS` | `5`      | Tự đóng cửa sổ trình duyệt sau khi xong việc bấy nhiêu giây. `0` = giữ mở. |
 | `SEARCH_SCROLLS`   | `2`               | Số lần cuộn thêm nếu chưa đủ số video yêu cầu.                 |

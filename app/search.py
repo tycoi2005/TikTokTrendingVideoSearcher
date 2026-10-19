@@ -297,10 +297,10 @@ class SearchBrowser:
             "viewport": {"width": 1280, "height": 800},
             "user_agent": config.HTTP_USER_AGENT,
         }
+        if config.BROWSER_CHANNEL:
+            kwargs["channel"] = config.BROWSER_CHANNEL
         try:
-            self._ctx = await self._pw.chromium.launch_persistent_context(
-                channel=config.BROWSER_CHANNEL, **kwargs
-            )
+            self._ctx = await self._pw.chromium.launch_persistent_context(**kwargs)
         except Exception:
             kwargs.pop("channel", None)
             kwargs.pop("user_agent", None)

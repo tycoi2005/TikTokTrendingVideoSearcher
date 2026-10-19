@@ -9,5 +9,10 @@ venv/
 .cache/
 .browser-profile/
 
+# PyInstaller
+build/
+dist/
+*.manifest
+
 # OS
 .DS_Store
