@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TikTok Trending &amp; Search</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>🎬 TikTok Trending &amp; Search</h1>
+      <p class="sub">Xem video trending hằng ngày và tìm kiếm video theo từ khóa đa quốc gia / đa ngôn ngữ.</p>
+    </header>
+
+    <nav class="tabs">
+      <button class="tab active" data-tab="trending">Trending</button>
+      <button class="tab" data-tab="search">Tìm kiếm từ khóa</button>
+    </nav>
+
+    <main>
+      <!-- Trending -->
+      <section id="panel-trending" class="panel">
+        <div class="controls">
+          <label>
+            Quốc gia
+            <select id="trend-country"></select>
+          </label>
+          <label>
+            Khoảng thời gian
+            <select id="trend-period">
+              <option value="24h">24 giờ</option>
+              <option value="7d" selected>7 ngày</option>
+              <option value="30d">30 ngày</option>
+            </select>
+          </label>
+          <label class="check">
+            <input type="checkbox" id="trend-translate" checked />
+            Dịch tiêu đề
+          </label>
+          <label>
+            Ngôn ngữ đích
+            <select id="trend-target"></select>
+          </label>
+          <button id="trend-load" class="primary">Xem trending</button>
+        </div>
+        <div id="trend-status" class="status"></div>
+        <div id="trend-results" class="grid"></div>
+      </section>
+
+      <!-- Search -->
+      <section id="panel-search" class="panel hidden">
+        <div class="controls">
+          <label class="grow">
+            Từ khóa
+            <input id="search-keyword" type="text" placeholder="ví dụ: khoai tây" />
+          </label>
+          <label class="check">
+            <input type="checkbox" id="search-translate" checked />
+            Tự dịch từ khóa &amp; kết quả
+          </label>
+          <label>
+            Số video / nhóm
+            <input id="search-limit" type="number" min="1" max="20" value="3" />
+          </label>
+          <label>
+            Ngôn ngữ đích
+            <select id="search-target"></select>
+          </label>
+          <button id="search-load" class="primary">Tìm kiếm</button>
+        </div>
+
+        <div class="multi">
+          <div>
+            <span class="hint">Quốc gia (Ctrl/Cmd + click để chọn nhiều)</span>
+            <select id="search-countries" multiple size="8"></select>
+          </div>
+          <div>
+            <span class="hint">Ngôn ngữ (bỏ trống = tự suy ra từ quốc gia)</span>
+            <select id="search-languages" multiple size="8"></select>
+          </div>
+        </div>
+
+        <div id="search-status" class="status"></div>
+        <div id="search-results"></div>
+      </section>
+    </main>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>
