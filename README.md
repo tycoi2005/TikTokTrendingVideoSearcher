@@ -1,4 +1,4 @@
-# LinhLaGreen TikTok Search
+# Tiktok Trend Explorer
 
 Web app nhỏ để:
 
