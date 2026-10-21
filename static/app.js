@@ -206,7 +206,8 @@ $("#search-load").addEventListener("click", async () => {
       const heading = document.createElement("h3");
       heading.className = "group-title";
       const label = group.language_name || group.language || "";
-      heading.innerHTML = `${group.country_name || group.country} <span class="badge">${label}</span> <span class="badge">“${group.keyword}”</span>`;
+      const searchUrl = group.search_url || `https://www.tiktok.com/search?q=${encodeURIComponent(group.keyword)}`;
+      heading.innerHTML = `${group.country_name || group.country} <span class="badge">${label}</span> <span class="badge">“${group.keyword}”</span> <a class="search-link" href="${searchUrl}" target="_blank" rel="noreferrer" title="Mở link tìm kiếm trên TikTok">🔗 Xem trang search TikTok ↗</a>`;
       results.appendChild(heading);
 
       if (group.error) {

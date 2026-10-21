@@ -78,5 +78,9 @@ select[multiple] { width: 100%; height: auto; }
 .card .meta { display: flex; justify-content: space-between; color: var(--muted); font-size: 12px; gap: 8px; }
 .card a.open { color: var(--accent); font-size: 12px; text-decoration: none; }
 
-.group-title { margin: 26px 0 10px; font-size: 15px; display: flex; align-items: center; gap: 10px; }
+
 .badge { background: var(--border); color: var(--text); border-radius: 999px; padding: 2px 10px; font-size: 12px; }
+
+.group-title { margin: 26px 0 10px; font-size: 15px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.search-link { color: var(--accent); font-size: 12px; text-decoration: none; margin-left: auto; display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; background: rgba(254, 44, 85, 0.1); border: 1px solid rgba(254, 44, 85, 0.25); border-radius: 999px; font-weight: 500; transition: background 0.2s, color 0.2s; }
+.search-link:hover { background: rgba(254, 44, 85, 0.2); text-decoration: none; }

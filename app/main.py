@@ -7,6 +7,8 @@ from __future__ import annotations
 
 from contextlib import asynccontextmanager
 
+from urllib.parse import quote
+
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -152,6 +154,7 @@ async def api_search(
             # chạy tiếp các ngôn ngữ khác cũng sẽ gặp captcha tương tự.
             groups.append(
                 {"country": country, "language": lang, "keyword": used_keyword,
+                 "search_url": f"https://www.tiktok.com/search?q={quote(used_keyword)}",
                  "error": str(exc), "items": []}
             )
             aborted = str(exc)
@@ -160,12 +163,14 @@ async def api_search(
             # Cửa sổ bị đóng; context đã được dựng lại cho lần sau. Ghi chú & tiếp tục.
             groups.append(
                 {"country": country, "language": lang, "keyword": used_keyword,
+                 "search_url": f"https://www.tiktok.com/search?q={quote(used_keyword)}",
                  "error": str(exc), "items": []}
             )
             continue
         except Exception as exc:  # noqa: BLE001
             groups.append(
                 {"country": country, "language": lang, "keyword": used_keyword,
+                 "search_url": f"https://www.tiktok.com/search?q={quote(used_keyword)}",
                  "error": str(exc), "items": []}
             )
             continue
@@ -179,6 +184,7 @@ async def api_search(
                 "language": lang,
                 "language_name": LANGUAGE_NAMES.get(lang, lang),
                 "keyword": used_keyword,
+                "search_url": f"https://www.tiktok.com/search?q={quote(used_keyword)}",
                 "items": items,
             }
         )
