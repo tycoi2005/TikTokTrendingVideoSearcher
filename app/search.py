@@ -35,6 +35,8 @@ _CLOSED_HINTS = (
     "browser has been closed",
     "context has been closed",
     "connection closed",
+    "failed to open a new tab",
+    "target.createtarget",
 )
 
 
@@ -247,31 +249,35 @@ class SearchBrowser:
                 self._first_payload.set()
 
     async def _get_page(self):
-        """Trả về 1 tab dùng lại cho mọi lần tìm (không mở/đóng tab mới)."""
+        """Trả về 1 tab dùng lại cho mọi lần tìm (không mở/đóng tab mới).
+
+        Lưu ý: trên Windows, đóng tab cuối cùng sẽ tắt luôn cửa sổ Chrome, nên
+        phải tái sử dụng tab mặc định thay vì đóng nó rồi mở tab mới.
+        """
         if self._page is not None and not self._page.is_closed():
             return self._page
-        page = await self._ctx.new_page()
+
+        pages = []
+        if self._ctx is not None:
+            try:
+                pages = [p for p in self._ctx.pages if not p.is_closed()]
+            except Exception:
+                pages = []
+
+        if pages:
+            page = pages[0]
+            # Đóng các tab thừa nhưng luôn giữ lại ít nhất 1 tab.
+            for extra in pages[1:]:
+                try:
+                    await extra.close()
+                except Exception:
+                    pass
+        else:
+            page = await self._ctx.new_page()
+
         page.on("response", lambda r: asyncio.create_task(self._handle_response(r)))
         self._page = page
         return page
-
-    async def _close_blank_pages(self) -> None:
-        """Đóng tab trống mặc định (about:blank / chrome://...) do Chrome tạo."""
-        if self._ctx is None:
-            return
-        try:
-            pages = list(self._ctx.pages)
-        except Exception:
-            return
-        for pg in pages:
-            try:
-                url = pg.url or ""
-                if url in ("", "about:blank") or url.startswith(
-                    ("chrome://", "edge://", "devtools://")
-                ):
-                    await pg.close()
-            except Exception:
-                pass
 
     async def _ensure(self) -> None:
         if self._context_alive():
@@ -309,8 +315,6 @@ class SearchBrowser:
         await self._ctx.add_init_script(
             "Object.defineProperty(navigator,'webdriver',{get:()=>undefined});"
         )
-        # Dọn tab trống để chỉ còn các tab tìm kiếm.
-        await self._close_blank_pages()
 
     async def _collect(
         self, page, payloads: list[dict], region: str | None, keyword: str, limit: int

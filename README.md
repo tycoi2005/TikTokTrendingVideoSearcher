@@ -115,8 +115,8 @@ trình duyệt thật để vượt qua:
 - App đọc kết quả theo 2 lớp: bắt trực tiếp JSON `search/general/full`, và nếu
   không bắt được thì **đọc video đã render trong DOM** — nên chỉ cần trang tìm
   kiếm hiển thị video là lấy được kết quả.
-- App **dùng lại một tab duy nhất** cho mọi lần tìm (không mở/đóng tab mới) và
-  tự đóng tab trống mặc định của Chrome, nên cửa sổ luôn gọn gàng.
+- App **dùng lại tab mặc định của Chrome** cho mọi lần tìm (không mở/đóng tab
+  mới), nên cửa sổ luôn gọn gàng và không bị tắt nhầm trên Windows.
 - Xong việc, cửa sổ **tự đóng** sau `BROWSER_IDLE_CLOSE_SECONDS` giây (mặc định
   `5`) nếu không có tìm kiếm mới. Đặt `0` để giữ mở.
 - Cookie được lưu tại `USER_DATA_DIR` (`.browser-profile`) nên thường chỉ cần
